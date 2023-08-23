@@ -157,8 +157,25 @@ int main()
         string key = "1101";
         cout << "Sender side..." << endl;
         encodeData(data, key);
+        cout<<"Press 0 to enter wrong : ";
+        int ch=100;
+        cin>>ch;
+        if(ch==0){
+            string dat=data;
+            if(dat[1]=='0')
+            {
+                dat[1]='1';
+            }
+            else{
+                dat[1]='0';
+            }
+            cout << "\nReceiver side..." << endl;
+        receiver(dat+mod2div(data+std::string(key.size() - 1, '0'),key), key);
+        }
+        else{
         cout << "\nReceiver side..." << endl;
         receiver(data+mod2div(data+std::string(key.size() - 1, '0'),key), key);
+        }
     }
 
     return 0;
