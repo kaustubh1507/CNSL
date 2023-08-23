@@ -3,6 +3,18 @@ using namespace std;
 #define ull unsigned long long int
 // Returns XOR of 'a' and 'b'
 // (both of same length)
+int convert(long long n) {
+  int dec = 0, i = 0, rem;
+
+  while (n!=0) {
+    rem = n % 10;
+    n /= 10;
+    dec += rem * pow(2, i);
+    ++i;
+  }
+
+  return dec;
+}
 int decimalToBinary(int N)
 {
     // To store the binary number
@@ -85,16 +97,17 @@ string mod2div(string dividend, string divisor)
 // at the end of data.
 void encodeData(string data, string key)
 {
+    cout<<"\n"<<data;
     int l_key = key.length();
 
 // Appends n-1 zeroes at end of data
     string appended_data= (data + std::string(l_key - 1, '0'));
-
+    cout<<"\n"<<appended_data;
     string remainder = mod2div(appended_data, key);
 
 // Append remainder in the original data
     string codeword = data + remainder;
-    cout << "Remainder : " << remainder << "\n";
+    cout << "\nRemainder : " << remainder << "\n";
     cout << "Encoded Data (Data + Remainder) :" << codeword<< "\n";
 }
 // checking if the message received by receiver is correct
@@ -102,6 +115,7 @@ void encodeData(string data, string key)
 // else wrong.
 void receiver(string data, string key)
 {
+    
     string currxor= mod2div(data.substr(0, key.size()), key);
     int curr = key.size();
     while (curr != data.size()) {
@@ -120,6 +134,13 @@ void receiver(string data, string key)
     }   
     else {
         cout << "correct message received" << endl;
+        cout<<data;
+        data.erase(data.length()-3,3);
+        int d2=stoi(data);
+        int val=convert(d2);
+        cout<<"Ascii val : "<<val;
+        char c= (char)val;
+        cout<<"\n"<<c;
     }
 }
 // Driver code
@@ -130,6 +151,7 @@ int main()
     cin>>ip;
     for(int i=0;i<ip.length();i++){
         int c=int(ip[i]);
+        cout<<"\n"<<ip[i]<<"\t"<<c;
         int x=decimalToBinary(c);
         string data = to_string(x);
         string key = "1101";
