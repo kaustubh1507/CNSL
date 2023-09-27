@@ -1,0 +1,160 @@
+
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+void tokenize(string ip , vector <int>& ipparts ){
+    string temp="";
+         for(int i=0;i<ip.size();i++){
+             if(ip[i]!='.'){
+                 temp+=ip[i];
+             }
+             else{
+                 ipparts.push_back(stoi(temp));
+                 temp="";
+             }
+         }
+         ipparts.push_back(stoi(temp));
+}
+
+void  subnetBasedHost(string ip){
+    int host;
+    cout<<"Enter the no of hosts :"<<endl;
+    cin>>host;
+     if(host<=0){
+         cout<<"Please enter valid subnet : )"<<endl;
+     }
+     else{
+         int h=0;
+         int hst=1;
+         while(hst<host){
+             hst=hst*2;
+             h++;
+         }
+         vector <int> ipparts;
+         tokenize(ip,ipparts);
+  
+         if(ipparts[0]<=127 && ipparts[0]>=0 ){
+             cout<<"Class A IP address"<<endl;
+             cout<<"Default subnet mask : 255.0.0.0"<<endl; 
+         }
+         else if(ipparts[0]>=128 && ipparts[0]<=191){
+             cout<<"Class B IP address"<<endl;
+             cout<<"Default subnet mask : 255.255.0.0"<<endl; 
+         }
+         else if(ipparts[0]>=192 && ipparts[0]<=223){
+             cout<<"Class C IP address"<<endl;
+             cout<<"Default subnet mask : 255.255.255.0"<<endl; 
+         }
+         else if(ipparts[0]>=224 && ipparts[0]<=239)
+         {
+            cout<<"Class D IP address "<<endl;
+            cout<<"Multicasting Video Conference "<<endl;
+         }
+         else{
+            cout<<"Class E IP address "<<endl;
+            cout<<"Reserved by IETF for R & D"<<endl;
+         }
+         
+         int n=8-h;
+         cout<<"No. of networks :"<<n<<endl;
+        //  cout<<"No. of hosts : "<<pow(2,h)-2<<endl;
+ 
+int nhosts=pow(2,h);
+        cout <<"Subnets :"<<endl;
+       
+        int parts=0;
+        while(parts<255){
+            if(parts==0)
+            {
+                cout<<ipparts[0]<<"."<<ipparts[1]<<"."<<ipparts[2]<<"."<<parts+1<<" to " <<ipparts[0]<<"."<<ipparts[1]<<"."<<ipparts[2]<<"."<<parts+nhosts-1<<endl;
+            }
+            else
+ {cout<<ipparts[0]<<"."<<ipparts[1]<<"."<<ipparts[2]<<"."<<parts<<" to " <<ipparts[0]<<"."<<ipparts[1]<<"."<<ipparts[2]<<"."<<parts+nhosts-1<<endl;}
+ parts+=nhosts;
+        }
+     }
+}
+
+
+void subnetBasedNetwork(string ip){
+    int subnet;
+    cout<<"Enter the no of subnets :"<<endl;
+    cin>>subnet;
+     if(subnet<=0){
+         cout<<"Please enter valid subnet : )"<<endl;
+     }
+     else{
+         int n=0;
+         int sb=1;
+         while(sb<subnet){
+             sb=sb*2;
+             n++;
+         }
+         vector <int> ipparts;
+         tokenize(ip,ipparts);
+
+         if(ipparts[0]<=127 && ipparts[0]>=0 ){
+             cout<<"Class A IP address"<<endl;
+             cout<<"Default subnet mask : 255.0.0.0"<<endl; 
+         }
+         else if(ipparts[0]>=128 && ipparts[0]<=191){
+             cout<<"Class B IP address"<<endl;
+             cout<<"Default subnet mask : 255.255.0.0"<<endl; 
+         }
+         else if(ipparts[0]>=192 && ipparts[0]<=223){
+             cout<<"Class C IP address"<<endl;
+             cout<<"Default subnet mask : 255.255.255.0"<<endl; 
+         }
+         else if(ipparts[0]>=224 && ipparts[0]<=239)
+         {
+            cout<<"Class D IP address "<<endl;
+            cout<<"Multicasting Video Conference "<<endl;
+         }
+         else{
+            cout<<"Class E IP address "<<endl;
+            cout<<"Reserved by IETF for R & D"<<endl;
+         }
+         
+         int h=8-n;
+         cout<<"No. of networks :"<<n<<endl;
+         cout<<"No. of hosts : "<<pow(2,h)-2<<endl;
+ 
+int nhosts=pow(2,h);
+        cout <<"Subnets :"<<endl;
+       
+        int parts=0;
+        while(parts<255){
+            if(parts==0)
+            {
+                cout<<ipparts[0]<<"."<<ipparts[1]<<"."<<ipparts[2]<<"."<<parts<<" to " <<ipparts[0]<<"."<<ipparts[1]<<"."<<ipparts[2]<<"."<<parts+nhosts-1<<endl;
+            }
+            else
+ {cout<<ipparts[0]<<"."<<ipparts[1]<<"."<<ipparts[2]<<"."<<parts<<" to " <<ipparts[0]<<"."<<ipparts[1]<<"."<<ipparts[2]<<"."<<parts+nhosts-1<<endl;}
+ parts+=nhosts;
+        }
+     }
+}
+int main() {
+ 
+  int choice;
+  cout<<"Enter your choice "<<endl;
+  cin>>choice;
+
+  string ip;
+  cout<<"Enter the IP Address :"<<endl;
+  cin>>ip;
+
+  switch(choice){
+      case 1:
+      subnetBasedNetwork(ip);
+      break;
+       case 2:
+       subnetBasedHost(ip);
+       break;
+       default:
+       cout<<"Enter a valid choice"<<endl;
+  }
+
+    return 0;
+}
